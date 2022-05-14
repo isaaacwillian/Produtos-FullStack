@@ -1,6 +1,9 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { loginValidate, registerValidate } = require("../validations/validate");
+const {
+  loginValidate,
+  registerValidate,
+} = require("../validations/validateUser");
 const User = require("../models/User");
 
 exports.register = async (req, res) => {
@@ -48,7 +51,6 @@ exports.login = async (req, res) => {
     maxAge: 60 * 60 * 24 * 1000,
     httpOnly: true,
     sameSite: "none",
-    secure: true,
   });
   return res.send("User Logged");
 };
