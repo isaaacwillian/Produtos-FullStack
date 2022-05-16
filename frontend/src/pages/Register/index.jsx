@@ -8,6 +8,7 @@ import { useRef } from "react";
 import getValidationsErrors from "../../utils/getValidationErros";
 import Button from "../../components/Button";
 import { Link } from "react-router-dom";
+import { api } from "../../services/api";
 
 export default function Login() {
   const formRef = useRef(null);
@@ -23,17 +24,13 @@ export default function Login() {
       await schema.validate(data, { abortEarly: false });
 
       formRef.current?.setErrors({});
-      console.log(data);
+      const a = await api.post("/user/register", data);
+      console.log(a);
     } catch (error) {
+      console.log(error);
       if (error instanceof yup.ValidationError) {
         const errors = getValidationsErrors(error);
         return formRef.current?.setErrors(errors);
-      }
-
-      if (err.response?.data === "Email or password is incorrect") {
-        return formRef.current?.setErrors({
-          email: "Email ou senha está incorreto",
-        });
       }
     }
   }
