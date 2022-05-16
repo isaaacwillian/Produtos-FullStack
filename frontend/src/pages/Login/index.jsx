@@ -15,14 +15,8 @@ export default function Login() {
   async function handleFormSubmit(data) {
     try {
       const schema = yup.object().shape({
-        email: yup
-          .string()
-          .email("Digite um email válido")
-          .required("Email é obrigatório"),
-        password: yup
-          .string()
-          .min(6, "Senha mínimo 6 caracteres")
-          .required("Senha é obrigatória!"),
+        email: yup.string().email("Digite um email válido").required("Email é obrigatório"),
+        password: yup.string().min(6, "Senha mínimo 6 caracteres").required("Senha é obrigatória!"),
       });
 
       await schema.validate(data, { abortEarly: false });
@@ -48,16 +42,11 @@ export default function Login() {
         <Form ref={formRef} onSubmit={handleFormSubmit}>
           <h2>Faça o login!</h2>
           <Input name="email" placeholder="Email" Icon={FiMail} />
-          <Input
-            name="password"
-            type="password"
-            placeholder="Senha"
-            Icon={FiLock}
-          />
+          <Input name="password" type="password" placeholder="Senha" Icon={FiLock} />
           <Button type="submit">Login</Button>
         </Form>
         <p>
-          Novo aqui? <a href="/register">Criar conta</a>
+          Novo aqui? <Link to="/register">Criar conta</Link>
         </p>
       </Content>
     </Container>

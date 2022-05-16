@@ -1,13 +1,15 @@
 import { useState } from "react";
 import GlobalStyle from "./styles/global";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
+import { BrowserRouter as Router } from "react-router-dom";
+import Routes from "./routes";
 
 function App() {
   return (
     <div className="App">
-      <GlobalStyle />
-      <Register />
+      <Router>
+        <GlobalStyle />
+        <Routes />
+      </Router>
     </div>
   );
 }

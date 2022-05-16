@@ -48,7 +48,7 @@ export default function Login() {
           <Button type="submit">Cadastrar</Button>
         </Form>
         <p>
-          Já tem uma conta? <a href="/register">Faça o login!</a>
+          Já tem uma conta? <Link to="/login">Faça o login!</Link>
         </p>
       </Content>
     </Container>
