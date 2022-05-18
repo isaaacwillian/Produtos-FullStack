@@ -3,9 +3,16 @@ const mongoose = require("mongoose");
 const userRouter = require("./routes/userRouter");
 const cookieParser = require("cookie-parser");
 const productRouter = require("./routes/productRouter");
+const cors = require("cors");
 
 const app = express();
 
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use(cookieParser());
 

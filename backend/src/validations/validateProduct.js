@@ -3,7 +3,7 @@ const Joi = require("joi");
 exports.insertValidate = (data) => {
   const schema = Joi.object({
     productName: Joi.string().min(3).max(50).required(),
-    originDate: Joi.date().less("now").required(),
+    originDate: Joi.date().required(),
     isPerishable: Joi.boolean().required(),
     expirationDate: Joi.exist().when("isPerishable", {
       is: true,
@@ -20,7 +20,7 @@ exports.updateValidate = (data) => {
   const schema = Joi.object({
     id: Joi.string(),
     productName: Joi.string().min(3).max(50),
-    originDate: Joi.date().less("now"),
+    originDate: Joi.date(),
     isPerishable: Joi.boolean().required(),
     expirationDate: Joi.exist().when("isPerishable", {
       is: true,

@@ -1,9 +1,6 @@
 const Product = require("../models/Product");
 
-const {
-  insertValidate,
-  updateValidate,
-} = require("../validations/validateProduct");
+const { insertValidate, updateValidate } = require("../validations/validateProduct");
 
 exports.insert = async (req, res) => {
   const { error } = insertValidate(req.body);
@@ -36,7 +33,9 @@ exports.getProducts = async (req, res) => {
 
 exports.deleteProduct = async (req, res) => {
   try {
-    const removedItem = await Product.findOneAndRemove(req.body.id);
+    const removedItem = await Product.findOneAndRemove({ _id: req.body.id });
+    console.log(req.body.id);
+    console.log(removedItem);
     if (removedItem.modifiedCount === 0)
       return res.status(404).json({ error: "Product not found" });
   } catch (error) {
@@ -47,7 +46,7 @@ exports.deleteProduct = async (req, res) => {
 };
 
 exports.updateProduct = async (req, res) => {
-  const product = await Product.findById(req.body.id);
+  const product = await Product.findById({ _id: req.body.id });
 
   if (!req.body.originDate) {
     req.body.originDate = product.originDate;
@@ -61,20 +60,26 @@ exports.updateProduct = async (req, res) => {
   if (error) return res.status(400).send(error.message);
 
   try {
-    await Product.findByIdAndUpdate(req.body.id, {
-      productName: req.body.newProductName,
-      originDate: req.body.originDate,
-      isPerishable: req.body.isPerishable,
-      expirationDate: req.body.expirationDate,
-      price: req.body.price,
-    });
+    await Product.findByIdAndUpdate(
+      { _id: req.body.id },
+      {
+        productName: req.body.productName,
+        originDate: req.body.originDate,
+        isPerishable: req.body.isPerishable,
+        expirationDate: req.body.expirationDate,
+        price: req.body.price,
+      }
+    );
 
     if (!req.body.isPerishable) {
-      await Product.findByIdAndUpdate(req.body.id, {
-        $unset: {
-          expirationDate: "",
-        },
-      });
+      await Product.findByIdAndUpdate(
+        { _id: req.body.id },
+        {
+          $unset: {
+            expirationDate: "",
+          },
+        }
+      );
     }
   } catch (error) {
     return res.json(error);
