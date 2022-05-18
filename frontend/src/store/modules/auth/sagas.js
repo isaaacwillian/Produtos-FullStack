@@ -4,7 +4,7 @@ import { turnAuthTrueFailure, turnAuthTrueSuccess } from "./action";
 
 function* checkAuthentication() {
   try {
-    yield call(api.get, "/product/getAll", { withCredentials: true });
+    yield call(api.get, "/user/getInfo", { withCredentials: true });
     yield put(turnAuthTrueSuccess());
   } catch (error) {
     yield put(turnAuthTrueFailure());

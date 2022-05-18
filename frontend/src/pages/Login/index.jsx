@@ -2,15 +2,14 @@ import Input from "../../components/Input";
 import { Form } from "@unform/web";
 import * as yup from "yup";
 import { FiMail, FiLock } from "react-icons/fi";
-
-import { Container, Content } from "./style";
 import { useRef } from "react";
+import { Container, Content } from "./style";
 import getValidationsErrors from "../../utils/getValidationErros";
 import Button from "../../components/Button";
 import { Link } from "react-router-dom";
 import { api } from "../../services/api";
 import { useDispatch } from "react-redux";
-import { turnAuthTrueRequest, turnAuthTrueSuccess } from "../../store/modules/auth/action";
+import { turnAuthTrueSuccess } from "../../store/modules/auth/action";
 
 export default function Login() {
   const dispatch = useDispatch();
@@ -29,6 +28,7 @@ export default function Login() {
       await api.post("/user/login", data, { withCredentials: true });
 
       dispatch(turnAuthTrueSuccess());
+      console.log("a");
     } catch (error) {
       console.log(error);
       if (error instanceof yup.ValidationError) {

@@ -4,7 +4,7 @@ import { FiAlertCircle } from "react-icons/fi";
 import { Container } from "./style";
 import Tooltip from "../Tooltip";
 
-export default function Input({ name, Icon, ...rest }) {
+export default function Input({ name, Icon, dashboard = false, ...rest }) {
   const inputRef = useRef(null);
 
   const [isFocused, setIsFocused] = useState(false);
@@ -26,9 +26,21 @@ export default function Input({ name, Icon, ...rest }) {
     });
   }, [fieldName, registerField]);
 
+  if (dashboard) {
+    return (
+      <input
+        name={name}
+        ref={inputRef}
+        onFocus={handleInputFocus}
+        onBlur={handleInputBlur}
+        {...rest}
+      />
+    );
+  }
+
   return (
     <Container hasError={!!error} isFocused={isFocused}>
-      <Icon size={17} />
+      {Icon && <Icon size={17} />}
       <input
         name={name}
         ref={inputRef}
