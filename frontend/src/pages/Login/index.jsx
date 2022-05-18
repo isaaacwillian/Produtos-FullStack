@@ -9,8 +9,11 @@ import getValidationsErrors from "../../utils/getValidationErros";
 import Button from "../../components/Button";
 import { Link } from "react-router-dom";
 import { api } from "../../services/api";
+import { useDispatch } from "react-redux";
+import { turnAuthTrueRequest, turnAuthTrueSuccess } from "../../store/modules/auth/action";
 
 export default function Login() {
+  const dispatch = useDispatch();
   const formRef = useRef(null);
 
   async function handleFormSubmit(data) {
@@ -23,15 +26,15 @@ export default function Login() {
       await schema.validate(data, { abortEarly: false });
 
       formRef.current?.setErrors({});
-      const a = await api.post("/user/login", data, { withCredentials: true });
+      await api.post("/user/login", data, { withCredentials: true });
 
-      console.log(a);
+      dispatch(turnAuthTrueSuccess());
     } catch (error) {
+      console.log(error);
       if (error instanceof yup.ValidationError) {
         const errors = getValidationsErrors(error);
         return formRef.current?.setErrors(errors);
       }
-      console.log(error);
 
       if (error.response?.data === "Email or password is incorrect") {
         return formRef.current?.setErrors({
