@@ -12,7 +12,7 @@ import {
 } from "./sortProducts";
 import { Table } from "./style";
 
-export default function Products({ data, setData, getAllProducts }) {
+export default function Products({ data, setData, getAllProducts, index }) {
   const [display, setDisplay] = useState("");
 
   function convertToBrazilianDate(date) {
@@ -59,46 +59,50 @@ export default function Products({ data, setData, getAllProducts }) {
         </tr>
       </thead>
       <tbody>
-        {data.map((product) => (
-          <tr key={product._id}>
-            <td>{product.productName}</td>
-            <td>
-              {product.price.toLocaleString("pt-br", {
-                style: "currency",
-                currency: "BRL",
-              })}
-            </td>
-            <td>{convertToBrazilianDate(product.originDate)}</td>
-            {product.isPerishable ? <td>Sim</td> : <td>Não</td>}
-            {product.isPerishable ? (
-              <td>{convertToBrazilianDate(product.expirationDate)}</td>
-            ) : (
-              <td></td>
-            )}
-            <td>
-              <button
-                type="button"
-                onClick={() => {
-                  showUpdateProduct(product._id);
-                }}
-              >
-                <FaRegEdit size="15px" />
-              </button>
-            </td>
-            <td>
-              <button type="button" onClick={() => removeProduct(product._id)}>
-                <ImBin size="15px" />
-              </button>
-              <UpdateProduct
-                getAllProducts={getAllProducts}
-                display={display === product._id ? "flex" : "none"}
-                setDisplay={setDisplay}
-                product={product}
-                productId={product._id}
-              />
-            </td>
-          </tr>
-        ))}
+        {data.map(
+          (product) =>
+            data.indexOf(product) < index * 10 &&
+            data.indexOf(product) >= index * 10 - 10 && (
+              <tr key={product._id}>
+                <td>{product.productName}</td>
+                <td>
+                  {product.price.toLocaleString("pt-br", {
+                    style: "currency",
+                    currency: "BRL",
+                  })}
+                </td>
+                <td>{convertToBrazilianDate(product.originDate)}</td>
+                {product.isPerishable ? <td>Sim</td> : <td>Não</td>}
+                {product.isPerishable ? (
+                  <td>{convertToBrazilianDate(product.expirationDate)}</td>
+                ) : (
+                  <td></td>
+                )}
+                <td>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      showUpdateProduct(product._id);
+                    }}
+                  >
+                    <FaRegEdit size="15px" />
+                  </button>
+                </td>
+                <td>
+                  <button type="button" onClick={() => removeProduct(product._id)}>
+                    <ImBin size="15px" />
+                  </button>
+                  <UpdateProduct
+                    getAllProducts={getAllProducts}
+                    display={display === product._id ? "flex" : "none"}
+                    setDisplay={setDisplay}
+                    product={product}
+                    productId={product._id}
+                  />
+                </td>
+              </tr>
+            )
+        )}
       </tbody>
     </Table>
   );

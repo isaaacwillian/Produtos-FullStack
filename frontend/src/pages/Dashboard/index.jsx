@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { api } from "../../services/api";
-import { Container, Content, Header } from "./style";
+import { Container, Content, Header, Indexes } from "./style";
 import Button from "../../components/Button";
 import { useDispatch } from "react-redux";
 import { turnAuthTrueFailure } from "../../store/modules/auth/action";
@@ -10,6 +10,7 @@ import AddProduct from "../../components/AddProduct";
 
 export default function Dashboard() {
   const dispatch = useDispatch();
+  const [index, setIndex] = useState(1);
 
   const [data, setData] = useState([]);
   const [user, setUser] = useState({});
@@ -54,8 +55,29 @@ export default function Dashboard() {
           <Button onClick={handleLogout}>Logout</Button>
         </Header>
         {data.length !== 0 && (
-          <Products data={data} setData={setData} getAllProducts={getAllProducts} />
+          <Products data={data} setData={setData} getAllProducts={getAllProducts} index={index} />
         )}
+
+        {data.length !== 0 && (
+          <Indexes>
+            {data.map((product) => {
+              const number = data.indexOf(product) + 1;
+              if (number % 10 === 1) {
+                const index = Math.ceil(number / 10);
+                return (
+                  <button
+                    onClick={() => {
+                      setIndex(index);
+                    }}
+                  >
+                    {index}
+                  </button>
+                );
+              }
+            })}{" "}
+          </Indexes>
+        )}
+
         <AddProduct getAllProducts={getAllProducts} />
       </Content>
     </Container>

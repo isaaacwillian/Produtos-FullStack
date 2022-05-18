@@ -47,3 +47,13 @@ export const Header = styled.div`
     text-align: center;
   }
 `;
+
+export const Indexes = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 20px;
+  button {
+    width: 20px;
+  }
+`;
